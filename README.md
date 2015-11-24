@@ -26,6 +26,28 @@ x = open failed
 . = open succeeded
 ~~~~
 
+# Locking on mounted AFP filesytem
+~~~~
+$ lockchart /Volumes/afp/file /Volumes/afp/file 
+           \     sharemode 
+sharemode   \    Attempted mode
+Current mode \   exclusive   | shared      | none
+                 R   W  RW   | R   W  RW   | R   W  RW
+exclusive    R   x   x   x     x   x   x     x   x   x   
+             W   x   x   x     x   x   x     x   x   x   
+             RW  x   x   x     x   x   x     x   x   x   
+----------
+shared       R   x   x   x     .   x   x     .   x   x   
+             W   x   x   x     x   x   x     .   x   x   
+             RW  x   x   x     x   x   x     .   x   x   
+----------
+none         R   x   x   x     .   .   .     .   .   .   
+             W   x   x   x     x   x   x     .   .   .   
+             RW  x   x   x     x   x   x     .   .   .   
+
+x = open failed
+. = open succeeded
+~~~~
 
 # Locking on mounted SMB filesytem
 ~~~~
